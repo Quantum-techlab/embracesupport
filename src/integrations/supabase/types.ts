@@ -9,7 +9,254 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          created_at: string | null
+          group_id: string | null
+          id: string
+          is_anonymous: boolean | null
+          message: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          group_id?: string | null
+          id?: string
+          is_anonymous?: boolean | null
+          message: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          group_id?: string | null
+          id?: string
+          is_anonymous?: boolean | null
+          message?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "support_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_messages_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      group_memberships: {
+        Row: {
+          group_id: string | null
+          id: string
+          joined_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          group_id?: string | null
+          id?: string
+          joined_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          group_id?: string | null
+          id?: string
+          joined_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_memberships_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "support_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_memberships_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      idk: {
+        Row: {
+          created_at: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
+      mood_logs: {
+        Row: {
+          created_at: string | null
+          id: string
+          journal_entry: string | null
+          mood_score: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          journal_entry?: string | null
+          mood_score: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          journal_entry?: string | null
+          mood_score?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mood_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resources: {
+        Row: {
+          approved: boolean | null
+          created_at: string | null
+          description: string | null
+          id: string
+          link: string | null
+          location: string | null
+          title: string
+          type: string
+        }
+        Insert: {
+          approved?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          link?: string | null
+          location?: string | null
+          title: string
+          type: string
+        }
+        Update: {
+          approved?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          link?: string | null
+          location?: string | null
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      saved_resources: {
+        Row: {
+          id: string
+          resource_id: string | null
+          saved_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          resource_id?: string | null
+          saved_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          resource_id?: string | null
+          saved_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_resources_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "resources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_resources_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_groups: {
+        Row: {
+          created_at: string | null
+          description: string
+          id: string
+          member_count: number | null
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          id?: string
+          member_count?: number | null
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          id?: string
+          member_count?: number | null
+          name?: string
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          display_name: string
+          email: string
+          id: string
+          is_anonymous: boolean | null
+          preferences: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_name: string
+          email: string
+          id?: string
+          is_anonymous?: boolean | null
+          preferences?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string
+          email?: string
+          id?: string
+          is_anonymous?: boolean | null
+          preferences?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
