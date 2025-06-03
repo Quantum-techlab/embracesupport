@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, Users, Shield } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -40,12 +41,16 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          <Button size="lg" className="bg-healing-600 hover:bg-healing-700 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            Join Community
-          </Button>
-          <Button size="lg" variant="outline" className="border-serenity-600 text-serenity-700 hover:bg-serenity-50 px-8 py-4 text-lg rounded-full transition-all duration-300">
-            Explore Resources
-          </Button>
+          <Link to="/chat-rooms">
+            <Button size="lg" className="bg-healing-600 hover:bg-healing-700 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              Join Community
+            </Button>
+          </Link>
+          <Link to="/resources">
+            <Button size="lg" variant="outline" className="border-serenity-600 text-serenity-700 hover:bg-serenity-50 px-8 py-4 text-lg rounded-full transition-all duration-300">
+              Explore Resources
+            </Button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: '0.6s' }}>
