@@ -1,12 +1,14 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, MapPin, Clock, Star, Heart } from 'lucide-react';
+import { Search, MapPin, Clock, Star, Heart, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const Resources = () => {
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('all');
 
@@ -99,9 +101,19 @@ const Resources = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-healing-50 via-white to-serenity-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mental Health Resources</h1>
-          <p className="text-gray-600">Discover free and low-cost mental health resources in your area</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Mental Health Resources</h1>
+            <p className="text-gray-600">Discover free and low-cost mental health resources in your area</p>
+          </div>
+          {user && (
+            <Link to="/create-resource">
+              <Button className="bg-healing-600 hover:bg-healing-700">
+                <Plus className="w-4 h-4 mr-2" />
+                Submit Resource
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Emergency Banner */}
@@ -183,8 +195,8 @@ const Resources = () => {
                     ))}
                   </div>
 
-                  <Button className="w-full mt-4 bg-healing-600 hover:bg-healing-700">
-                    Access Resource
+                  <Button className="w-full mt-4 bg-healing-600 hover:bg-healing-700" disabled={!user}>
+                    {user ? 'Access Resource' : 'Sign in to Access'}
                   </Button>
                 </div>
               </CardContent>

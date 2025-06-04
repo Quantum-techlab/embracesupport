@@ -1,11 +1,13 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Users, Clock, Shield, Heart } from 'lucide-react';
+import { MessageCircle, Users, Clock, Shield, Heart, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const ChatRooms = () => {
+  const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
@@ -93,9 +95,19 @@ const ChatRooms = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-healing-50 via-white to-serenity-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Support Groups</h1>
-          <p className="text-gray-600">Join anonymous, moderated chat rooms for peer support and community connection</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Support Groups</h1>
+            <p className="text-gray-600">Join anonymous, moderated chat rooms for peer support and community connection</p>
+          </div>
+          {user && (
+            <Link to="/create-group">
+              <Button className="bg-healing-600 hover:bg-healing-700">
+                <Plus className="w-4 h-4 mr-2" />
+                Create Group
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Community Guidelines Banner */}
@@ -175,8 +187,8 @@ const ChatRooms = () => {
                     ))}
                   </div>
 
-                  <Button className="w-full bg-healing-600 hover:bg-healing-700">
-                    Join Group
+                  <Button className="w-full bg-healing-600 hover:bg-healing-700" disabled={!user}>
+                    {user ? 'Join Group' : 'Sign in to Join'}
                   </Button>
                 </div>
               </CardContent>

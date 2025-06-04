@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Heart, Home, BarChart3, MessageCircle, Search, LogOut, User } from 'lucide-react';
+import { Heart, Home, BarChart3, MessageCircle, Search, LogOut, User, Settings } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 const Navigation = () => {
@@ -57,6 +57,12 @@ const Navigation = () => {
           <div className="flex items-center space-x-4">
             {user ? (
               <div className="flex items-center space-x-3">
+                <Link to="/settings">
+                  <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                    <Settings className="w-4 h-4" />
+                    <span>Settings</span>
+                  </Button>
+                </Link>
                 <div className="flex items-center space-x-2">
                   <User className="w-4 h-4 text-gray-600" />
                   <span className="text-sm text-gray-600">{user.email}</span>

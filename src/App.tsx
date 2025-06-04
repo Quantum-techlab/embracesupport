@@ -10,7 +10,10 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import MoodTracker from "./pages/MoodTracker";
 import Resources from "./pages/Resources";
+import CreateResource from "./pages/CreateResource";
 import ChatRooms from "./pages/ChatRooms";
+import CreateGroup from "./pages/CreateGroup";
+import UserSettings from "./pages/UserSettings";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/Navigation";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -39,9 +42,24 @@ const App = () => (
               </ProtectedRoute>
             } />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/create-resource" element={
+              <ProtectedRoute>
+                <CreateResource />
+              </ProtectedRoute>
+            } />
             <Route path="/chat-rooms" element={
               <ProtectedRoute>
                 <ChatRooms />
+              </ProtectedRoute>
+            } />
+            <Route path="/create-group" element={
+              <ProtectedRoute>
+                <CreateGroup />
+              </ProtectedRoute>
+            } />
+            <Route path="/settings" element={
+              <ProtectedRoute>
+                <UserSettings />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
