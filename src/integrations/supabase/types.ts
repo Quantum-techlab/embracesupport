@@ -51,6 +51,48 @@ export type Database = {
           },
         ]
       }
+      direct_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          read_at: string | null
+          receiver_id: string
+          sender_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          read_at?: string | null
+          receiver_id: string
+          sender_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          read_at?: string | null
+          receiver_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direct_messages_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       group_memberships: {
         Row: {
           group_id: string | null
@@ -137,9 +179,12 @@ export type Database = {
       resources: {
         Row: {
           approved: boolean | null
+          cost: string | null
           created_at: string | null
+          creator_id: string | null
           description: string | null
           id: string
+          is_paid: boolean | null
           link: string | null
           location: string | null
           title: string
@@ -147,9 +192,12 @@ export type Database = {
         }
         Insert: {
           approved?: boolean | null
+          cost?: string | null
           created_at?: string | null
+          creator_id?: string | null
           description?: string | null
           id?: string
+          is_paid?: boolean | null
           link?: string | null
           location?: string | null
           title: string
@@ -157,15 +205,26 @@ export type Database = {
         }
         Update: {
           approved?: boolean | null
+          cost?: string | null
           created_at?: string | null
+          creator_id?: string | null
           description?: string | null
           id?: string
+          is_paid?: boolean | null
           link?: string | null
           location?: string | null
           title?: string
           type?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "resources_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       saved_resources: {
         Row: {
@@ -205,27 +264,91 @@ export type Database = {
       }
       support_groups: {
         Row: {
+          category: string | null
           created_at: string | null
+          creator_id: string | null
           description: string
           id: string
+          is_paid: boolean | null
+          is_private: boolean | null
           member_count: number | null
           name: string
         }
         Insert: {
+          category?: string | null
           created_at?: string | null
+          creator_id?: string | null
           description: string
           id?: string
+          is_paid?: boolean | null
+          is_private?: boolean | null
           member_count?: number | null
           name: string
         }
         Update: {
+          category?: string | null
           created_at?: string | null
+          creator_id?: string | null
           description?: string
           id?: string
+          is_paid?: boolean | null
+          is_private?: boolean | null
           member_count?: number | null
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "support_groups_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_posts: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          is_public: boolean | null
+          post_type: string
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          is_public?: boolean | null
+          post_type?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_public?: boolean | null
+          post_type?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_posts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {
@@ -234,6 +357,7 @@ export type Database = {
           email: string
           id: string
           is_anonymous: boolean | null
+          is_verified: boolean | null
           preferences: Json | null
           updated_at: string | null
         }
@@ -243,6 +367,7 @@ export type Database = {
           email: string
           id?: string
           is_anonymous?: boolean | null
+          is_verified?: boolean | null
           preferences?: Json | null
           updated_at?: string | null
         }
@@ -252,10 +377,59 @@ export type Database = {
           email?: string
           id?: string
           is_anonymous?: boolean | null
+          is_verified?: boolean | null
           preferences?: Json | null
           updated_at?: string | null
         }
         Relationships: []
+      }
+      verification_requests: {
+        Row: {
+          id: string
+          reason: string | null
+          request_type: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          submitted_at: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          reason?: string | null
+          request_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          reason?: string | null
+          request_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_requests_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

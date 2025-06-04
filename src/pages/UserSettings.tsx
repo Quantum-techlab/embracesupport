@@ -45,7 +45,10 @@ const UserSettings = () => {
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching user data:', error);
+        return;
+      }
 
       if (data) {
         setProfile({
@@ -143,8 +146,24 @@ const UserSettings = () => {
   };
 
   const requestVerification = async () => {
-    // In a real app, this would submit a verification request
-    toast.info('Verification request submitted! We will review your application.');
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('verification_requests')
+        .insert({
+          user_id: user.id,
+          request_type: 'creator',
+          reason: 'Request to monetize resources and groups'
+        });
+
+      if (error) throw error;
+
+      toast.success('Verification request submitted! We will review your application.');
+    } catch (error) {
+      console.error('Error submitting verification request:', error);
+      toast.error('Failed to submit verification request');
+    }
   };
 
   return (
